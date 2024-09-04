@@ -53,6 +53,8 @@ export class ProductsService {
   }
 
   public async update(id: number, dto: UpdateProductDto) {
+    const { id: __, ...data} = dto;
+
     await this.findById(id);
 
     return this.prismaService.product.update({
@@ -60,7 +62,7 @@ export class ProductsService {
         id,
         deleted: false,
       },
-      data: dto,
+      data,
     }) 
   }
 
