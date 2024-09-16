@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Body, ParseIntPipe } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
-import { ProductPaginationDto } from '../dto/pagination.dto';
+import { ProductPaginationDto } from '../../common/pagination.dto';
 import { ProductPaginationResponse } from '../entities/pagination-response.entity';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 

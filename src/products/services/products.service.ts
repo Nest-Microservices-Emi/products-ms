@@ -1,9 +1,10 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { PrismaService } from '../../../prisma/services/prisma.service';
-import { ProductPaginationDto } from '../dto/pagination.dto';
+import { ProductPaginationDto } from '../../common/pagination.dto';
 import { ProductPaginationResponse } from '../entities/pagination-response.entity';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductsService {
@@ -46,7 +47,10 @@ export class ProductsService {
       }
     });
     if(!product) {
-      throw new NotFoundException(`Product with id ${id} not found.`);
+      throw new RpcException({
+        status: HttpStatus.BAD_REQUEST,
+        message:`Product with id ${id} not found.`
+      });
     }
 
     return product;
