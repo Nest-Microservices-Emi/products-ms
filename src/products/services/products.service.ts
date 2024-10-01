@@ -2,9 +2,10 @@ import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { PrismaService } from '../../../prisma/services/prisma.service';
-import { ProductPaginationDto } from '../../common/pagination.dto';
-import { ProductPaginationResponse } from '../entities/pagination-response.entity';
+import { PaginationDto } from '../../common/pagination.dto';
+import { PaginationResponse } from '../../common/pagination-response.type';
 import { RpcException } from '@nestjs/microservices';
+import { Product } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
@@ -18,7 +19,7 @@ export class ProductsService {
     });
   }
 
-  public async findAll(dto: ProductPaginationDto): Promise<ProductPaginationResponse> {
+  public async findAll(dto: PaginationDto): Promise<PaginationResponse<Product>> {
     const { page, limit } = dto;
     const totalPages = await this.prismaService.product.count({ where: { deleted: false }});
     const lastPage = Math.ceil( totalPages / limit );

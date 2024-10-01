@@ -2,8 +2,7 @@ import { Controller, Body, ParseIntPipe } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
-import { ProductPaginationDto } from '../../common/pagination.dto';
-import { ProductPaginationResponse } from '../entities/pagination-response.entity';
+import { PaginationDto } from '../../common/pagination.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('products')
@@ -20,7 +19,7 @@ export class ProductsController {
   }
 
   @MessagePattern({ cmd: 'findAll'})
-  findAll(@Payload() dto: ProductPaginationDto): Promise<ProductPaginationResponse> {
+  findAll(@Payload() dto: PaginationDto) {
     try {
       return this.productsService.findAll(dto);
     } catch (error) {
