@@ -9,7 +9,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @MessagePattern({ cmd: 'create'})
+  @MessagePattern({ cmd: 'createProduct'})
   create(@Payload() dto: CreateProductDto) {
     try {
       return this.productsService.create(dto);
@@ -18,7 +18,7 @@ export class ProductsController {
     }
   }
 
-  @MessagePattern({ cmd: 'findAll'})
+  @MessagePattern({ cmd: 'findAllProducts'})
   findAll(@Payload() dto: PaginationDto) {
     try {
       return this.productsService.findAll(dto);
@@ -27,7 +27,7 @@ export class ProductsController {
     }
   }
 
-  @MessagePattern({ cmd: 'findById'})
+  @MessagePattern({ cmd: 'findProductById'})
   findById(@Payload('id', ParseIntPipe) id: number) {
     try {
       return this.productsService.findById(id);
@@ -36,7 +36,7 @@ export class ProductsController {
     }
   }
 
-  @MessagePattern({ cmd: 'update'})
+  @MessagePattern({ cmd: 'updateProduct'})
   update(@Body() dto: UpdateProductDto) {
     try {
       return this.productsService.update(dto.id, dto);
@@ -45,10 +45,19 @@ export class ProductsController {
     }
   }
 
-  @MessagePattern({ cmd: 'remove'})
+  @MessagePattern({ cmd: 'removeProduct'})
   remove(@Payload('id') id: string) {
     try {
       return this.productsService.remove(+id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  @MessagePattern({ cmd: 'validateProducts' })
+  validateProducts(@Payload('ids') ids: number[]) {
+    try {
+      return this.productsService.validateProducts(ids);
     } catch (error) {
       console.log(error);
     }
